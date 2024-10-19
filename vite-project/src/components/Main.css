@@ -1,7 +1,8 @@
+/* Main.css */
 .main {
     flex: 1;
-    min-height: 100vh;
-    padding-bottom: 15vh;
+    min-height: 100vh; /* Full viewport height */
+    padding-bottom: 15vh; /* Space at the bottom */
     width: 100%; /* Occupy full width */
     position: relative;
 }
@@ -21,14 +22,12 @@
 }
 
 .main-container {
-    /* Optional: Remove max-width to make it full width */
-   max-width:900px;
-   margin:auto;
-   /* Add padding if needed to avoid content touching the edges */
+    max-width: 1000px; /* Optional max-width */
+    margin: 0 150px; /* Consistent margin for alignment */
 }
 
 .main .greet {
-    margin: 50px 0px;
+    margin: 50px 0;
     font-size: 56px;
     color: #c4c7c5;
     font-weight: 500;
@@ -43,15 +42,16 @@
 
 .main .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Responsive grid */
+    gap: 15px; /* Space between cards */
     padding: 20px;
-    width: 100%; /* Ensure grid occupies full width */
+    width: 120%; /* Ensure grid occupies full width */
 }
 
 .main .card {
-    height: 200px;
+    height: 180px;
     padding: 15px;
+    margin: 10px;
     background-color: #FAF3E0;
     border-radius: 10px;
     position: relative;
@@ -76,6 +76,29 @@
 
 .main .card:hover {
     background-color: #d5af62;
+}
+
+.result {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically if needed */
+    margin: 20px 0; /* Adjust margin as needed */
+    width: 100%; /* Ensure it occupies full width */
+}
+
+.result-title {
+    display: flex;
+    align-items: center;
+}
+
+.result-title img {
+    margin-right: 10px; /* Spacing between image and text */
+}
+
+.result-data {
+    padding: 20px;
+    text-align: center; /* Center text inside result data */
 }
 
 .main-bottom {
@@ -121,5 +144,11 @@
     font-size: 13px;
     margin: 15px auto;
     text-align: center;
+   
     font-weight: 300;
+}
+.browse{
+    border-color: #f79f1f;
+    background-color: #eac273;
+    color: white;
 }

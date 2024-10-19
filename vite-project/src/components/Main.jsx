@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { assets } from "../../src/assets/assets"; // Placeholder for assets import
-import ActivityTracker from './ActivityTracker'; // Import ActivityTracker component
-import RecentActivities from './RecentActivities'; // Import RecentActivities component
+import { assets } from "../../src/assets/assets"; 
+import ActivityTracker from './ActivityTracker'; 
+import RecentActivities from './RecentActivities'; 
 import "./Main.css";
 
 const Main = () => {
@@ -16,16 +16,15 @@ const Main = () => {
         setInput(promptText);
         setShowResults(true);
         setLoading(true);
-        
-        // Simulate loading and result display based on card click
+       
         setTimeout(() => {
             setLoading(false);
             if (promptText.toLowerCase() === "track my activity") {
-                setResultData(<ActivityTracker />); // Render the ActivityTracker component
+                setResultData(<ActivityTracker />); 
             } else if (promptText.toLowerCase() === "recent activities") {
-                setResultData(<RecentActivities />); // Render the RecentActivities component
+                setResultData(<RecentActivities />); 
             } else {
-                setResultData(`Response for: "${promptText}"`); // Placeholder response
+                setResultData(`Response for: "${promptText}"`); 
             }
         }, 2000);
     };
@@ -40,15 +39,15 @@ const Main = () => {
             setTimeout(() => {
                 setLoading(false);
                 if (input.toLowerCase().includes("activity")) {
-                    setResultData(<ActivityTracker />); // Render the ActivityTracker component
+                    setResultData(<ActivityTracker />); 
                 } else if (input.toLowerCase().includes("recent activities")) {
-                    setResultData(<RecentActivities />); // Render the RecentActivities component
+                    setResultData(<RecentActivities />); 
                 } else {
-                    setResultData(`Response for: "${input}"`); // Placeholder response
+                    setResultData(`Response for: "${input}"`); 
                 }
             }, 2000);
 
-            // Clear the input field
+            
             setInput("");
         }
     };
@@ -57,7 +56,9 @@ const Main = () => {
         <div className="main">
             <div className="nav">
                 <p>Chat Wizard</p>
-                <img src={assets.user} alt="User" />
+                <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">
+                <button className="browse">Start Browsing</button>
+            </a>
             </div>
             <div className="main-container">
                 {!showResults ? (
@@ -117,7 +118,7 @@ const Main = () => {
                                     <hr />
                                 </div>
                             ) : (
-                                <div>{resultData}</div> // Ensure resultData can handle components
+                                <div>{resultData}</div> 
                             )}
                         </div>
                     </div>
