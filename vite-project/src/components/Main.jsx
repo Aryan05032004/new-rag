@@ -37,6 +37,7 @@ const Main = () => {
             setLoading(true);
     
             try {
+                // Call the API
                 const response = await sendUserQuery(input);
                 setLoading(false);
     
@@ -47,11 +48,14 @@ const Main = () => {
                 } else {
                     console.log(response);
     
+                    // Make sure response is valid and contains renderable data
                     if (response?.data?.response) {
+                        // If it's an object or array, format it for rendering
                         if (typeof response.data.response === 'object') {
-                            setResultData(JSON.parse(response.data.response[0]).response);
+                            console.log(JSON.parse(response.data.response[0]).response);
+                            setResultData(JSON.parse(response.data.response[0]).response); // Convert the object to a string
                         } else {
-                            setResultData(response.data.response);
+                            setResultData(response.data.response); // Render it if it's a valid string
                         }
                     } else {
                         setResultData("No response data received");
@@ -66,12 +70,6 @@ const Main = () => {
         }
     };
     
-    // Function to handle pressing the Enter key
-    const handleKeyDown = (e) => {
-        if (e.key === "Enter") {
-            onSent();
-        }
-    };
 
     return (
         <div className="main">
@@ -88,7 +86,7 @@ const Main = () => {
                             <p>
                                 <span> Hello, User </span>
                             </p>
-                            <p>Searching for your past activities?</p>
+                            <p>Searching for your past activities ?</p>
                         </div>
                         <div className="cards">
                             <div className="card" onClick={() => handleCardClick("Track My Activity")}>
@@ -132,7 +130,6 @@ const Main = () => {
                     <div className="search-box">
                         <input
                             onChange={(e) => setInput(e.target.value)}
-                            onKeyDown={handleKeyDown} // Attach the keydown handler here
                             value={input}
                             type="text"
                             placeholder="Enter your message here"
