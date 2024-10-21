@@ -23,7 +23,8 @@
 
 .main-container {
     max-width: 1000px; /* Optional max-width */
-    margin: 0 150px; /* Consistent margin for alignment */
+    margin: 0 150px;
+    flex: 1; /* Consistent margin for alignment */
 }
 
 .main .greet {
@@ -151,4 +152,19 @@
     border-color: #f79f1f;
     background-color: #eac273;
     color: white;
+}.result {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Align items to the right */
+    margin: 20px 0;
+    width: 100%;
+}
+
+.result-data {
+    padding: 20px;
+    text-align: center;
+}
+
+.loader {
+    text-align: right; /* Align loader to the right */
 }

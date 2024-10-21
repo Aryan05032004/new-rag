@@ -3,6 +3,7 @@ import { assets } from "../../src/assets/assets";
 import ActivityTracker from './ActivityTracker'; 
 import RecentActivities from './RecentActivities'; 
 import "./Main.css";
+import { sendUserQuery } from "../services/http_request"; // Ensure the path is correct
 
 const Main = () => {
     const [input, setInput] = useState("");
@@ -16,49 +17,67 @@ const Main = () => {
         setInput(promptText);
         setShowResults(true);
         setLoading(true);
-       
+
         setTimeout(() => {
             setLoading(false);
             if (promptText.toLowerCase() === "track my activity") {
-                setResultData(<ActivityTracker />); 
+                setResultData(<ActivityTracker />);
             } else if (promptText.toLowerCase() === "recent activities") {
-                setResultData(<RecentActivities />); 
+                setResultData(<RecentActivities />);
             } else {
-                setResultData(`Response for: "${promptText}"`); 
+                setResultData(`Response for: "${promptText}"`);
             }
         }, 2000);
     };
 
-    const onSent = () => {
+    const onSent = async () => {
         if (input.trim() !== "") {
             setRecentPrompt(input);
             setShowResults(true);
             setLoading(true);
-
-            // Check the input for specific keywords
-            setTimeout(() => {
+    
+            try {
+                // Call the API
+                const response = await sendUserQuery(input);
                 setLoading(false);
+    
                 if (input.toLowerCase().includes("activity")) {
-                    setResultData(<ActivityTracker />); 
+                    setResultData(<ActivityTracker />);
                 } else if (input.toLowerCase().includes("recent activities")) {
-                    setResultData(<RecentActivities />); 
+                    setResultData(<RecentActivities />);
                 } else {
-                    setResultData(`Response for: "${input}"`); 
+                    console.log(response);
+    
+                    // Make sure response is valid and contains renderable data
+                    if (response?.data?.response) {
+                        // If it's an object or array, format it for rendering
+                        if (typeof response.data.response === 'object') {
+                            console.log(JSON.parse(response.data.response[0]).response);
+                            setResultData(JSON.parse(response.data.response[0]).response); // Convert the object to a string
+                        } else {
+                            setResultData(response.data.response); // Render it if it's a valid string
+                        }
+                    } else {
+                        setResultData("No response data received");
+                    }
                 }
-            }, 2000);
-
-            
+            } catch (error) {
+                setLoading(false);
+                console.error("Error sending user query:", error);
+                setResultData("An error occurred while processing your request.");
+            }
             setInput("");
         }
     };
+    
 
     return (
         <div className="main">
             <div className="nav">
                 <p>Chat Wizard</p>
                 <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">
-                <button className="browse">Start Browsing</button>
-            </a>
+                    <button className="browse">Start Browsing</button>
+                </a>
             </div>
             <div className="main-container">
                 {!showResults ? (
@@ -70,35 +89,19 @@ const Main = () => {
                             <p>Ready to unleash your ideas?</p>
                         </div>
                         <div className="cards">
-                            <div
-                                className="card"
-                                onClick={() => handleCardClick("Track My activity")}
-                            >
+                            <div className="card" onClick={() => handleCardClick("Track My Activity")}>
                                 <p>Track My Activity</p>
                                 <img src={assets.compass_icon} alt="Compass" />
                             </div>
-                            <div
-                                className="card"
-                                onClick={() => handleCardClick("Recent Activities")}
-                            >
+                            <div className="card" onClick={() => handleCardClick("Recent Activities")}>
                                 <p>Recent Activities</p>
                                 <img src={assets.message_icon} alt="Message" />
                             </div>
-                            <div
-                                className="card"
-                                onClick={() =>
-                                    handleCardClick("How to create a responsive navbar?")
-                                }
-                            >
+                            <div className="card" onClick={() => handleCardClick("How to create a responsive navbar?")}>
                                 <p>How to create a responsive navbar?</p>
                                 <img src={assets.bulb_icon} alt="Bulb" />
                             </div>
-                            <div
-                                className="card"
-                                onClick={() =>
-                                    handleCardClick("Skills required for a front-end developer.")
-                                }
-                            >
+                            <div className="card" onClick={() => handleCardClick("Skills required for a front-end developer.")}>
                                 <p>Skills for front-end developer</p>
                                 <img src={assets.code_icon} alt="Code" />
                             </div>
@@ -118,7 +121,7 @@ const Main = () => {
                                     <hr />
                                 </div>
                             ) : (
-                                <div>{resultData}</div> 
+                                <div>{resultData}</div>
                             )}
                         </div>
                     </div>
